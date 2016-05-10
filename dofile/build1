@@ -1,0 +1,5 @@
+read input/unit2/in_1.v input/unit2/in_2.v -r
+sim -r
+check
+build
+q -f

@@ -1,0 +1,57 @@
+read input/unit1/in_1.v -single -r
+toaig
+print
+check -aig -random
+
+read input/unit1/in_2.v -single -r
+toaig
+check -aig -random
+
+read input/unit2/in_1.v -single -r
+toaig
+check -aig -random
+
+read input/unit2/in_2.v -single -r
+toaig
+check -aig -random
+
+read input/unit3/in_1.v -single -r
+print -s
+toaig
+check -aig -random
+
+read input/unit3/in_2.v -single -r
+print -s
+toaig
+check -aig -random
+
+read input/unit4/in_1.v -single -r
+print -s
+toaig
+check -aig -random
+
+read input/unit4/in_2.v -single -r
+print -s
+toaig
+check -aig -random
+
+read input/unit5/in_1.v -single -r
+print -s
+toaig
+check -aig -random
+
+read input/unit5/in_2.v -single -r
+print -s
+toaig
+check -aig -random
+
+read input/unit7/in_1.v -single -r
+print -s
+toaig
+check -aig -random
+
+read input/unit7/in_2.v -single -r
+print -s
+toaig
+check -aig -random
+q -f

@@ -1,0 +1,19 @@
+Finishing reading file...
+gate numbers: 78169
+input numbers: 1364
+output numbers: 5397
+wire numbers: 90237
+
+Finishing reading file...
+gate numbers: 52219
+input numbers: 1364
+output numbers: 5397
+wire numbers: 50799
+
+Starting Sim...
+Original circuitOne gate size :157702
+Original circuitTwo gate size :105802
+HASH Size:100019
+8482
+After gateLevel: 4872
+After filtering: 6475

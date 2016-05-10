@@ -1,0 +1,6 @@
+read input/test1/in1.v input/test1/in2.v -r
+print -n
+q -f
+read input/unit8/in_1.v input/unit8/in_2.v -r
+print
+q  -f

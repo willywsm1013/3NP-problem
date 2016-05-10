@@ -1,0 +1,6 @@
+read input/mytest/and_in_1.v input/mytest/and_in_2.v -r
+toaig
+read input/mytest/or_in_1.v input/mytest/or_in_2.v -r
+toaig
+read input/mytest/xor_in_1.v input/mytest/xor_in_2.v -r
+toaig
