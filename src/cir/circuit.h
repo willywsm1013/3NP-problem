@@ -12,6 +12,7 @@ using namespace std;
 class Circuit{
 friend class CirMgr;
 public:
+	typedef vector<Gate*> GateList; 
 	friend AigGate ;
 	Circuit(){init();}
 	~Circuit(){clear();}
@@ -34,10 +35,9 @@ public:
 	//Simulation Function
 	void simulate(int);
 	bool checkAig();
-	//SAT Function
-	void satProve(SatSolver *);
-	void genProveModel(SatSolver *&,Var,Var);
-
+	//fraig Function
+	void fraig(SatSolver *);
+	void genProofModel(SatSolver *,const GateList&); 	
 	// convert oto Aig
 	void convert2Aig();
 private:
@@ -49,11 +49,12 @@ private:
 	vector<CirGate*> _gate;
 	vector<CirGate*> _dfsList;
 	vector<AigGate*> _dfsAig;
-	vector<vector<CirGate*> > _fecGroup;
+	vector<GateList > _fecGroup;
 	
 	ConstGate *_true;
 	ConstGate *_false;
 
+	SatSolver *_solver;
 	void clear(){delete _hash;_hash=0;}
 	void init();
 	//read function
@@ -69,5 +70,6 @@ private:
 	//simulation fection
 	void findFEC();
 	//SAT function
+
 };
 #endif

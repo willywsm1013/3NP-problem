@@ -3,6 +3,7 @@ void Circuit::init(){
 	_true=new ConstGate(0,"1'b1",true,_cirNumber);
 	_false=new ConstGate(1,"1'b0",false,_cirNumber);
 	_hash=0;
+	_solver=0;
 }
 /********************/
 /*  read operation  */
