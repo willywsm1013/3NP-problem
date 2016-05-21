@@ -2,6 +2,7 @@
 #define CIRMGR
 
 #include "circuit.h"
+#include "cirKey.h"
 class simKey;
 class CirMgr{
 public:
@@ -69,19 +70,5 @@ private:
 };
 
 
-class simKey{
-public:
-	simKey(unsigned int s){
-		if((s&MASK_INVERT)==1)
-			_sim=s;
-		else
-			_sim=~s;
-	}
-	size_t operator()()const{return _sim;}
-	bool operator== (const simKey& k)const {return _sim==k._sim;}
 
-private:
-	unsigned int _sim;
-
-};
 #endif

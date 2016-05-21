@@ -1,7 +1,8 @@
 #include "circuit.h"
 void Circuit::init(){
-	_true=new ConstGate(0,"1'b1",true,_cirNumber);
-	_false=new ConstGate(1,"1'b0",false,_cirNumber);
+	_aigConst=new constGate();
+	_true=new ConstGate(0,"1'b1",true,_cirNumber,(size_t)_aigConst);
+	_false=new ConstGate(1,"1'b0",false,_cirNumber,(size_t)_aigGConst);
 	_hash=0;
 }
 /********************/
@@ -232,19 +233,20 @@ void Circuit::DFS(CirGate* const source ,vector<CirGate*> &dfsList){
 	dfsList.push_back(source);
 }
 
-void Circuit::AigDFSearch(const vector<size_t> & source,vector<AigGate*> &list){
+void Circuit::AigDFSearch(const vector<size_t> & source,vector<BaseGate*> &list){
 	for(size_t i=0;i<source.size();++i){
 		AigDFS(source[i],list);
 	}
-	++AigGate::_gloref;
+	++BaseGate::_gloref;
 }
 
-void Circuit::AigDFS(const size_t &source,vector<AigGate*> &list){	
+void Circuit::AigDFS(const size_t &source,vector<BaseGate*> &list){	
 	if((source & MASK_AIG) == 0){
-		//CirGate* tmp=(CirGate*)(source & ~MASK_INVERT);
+		CirGate* tmp=(CirGate*)(source & ~MASK_INVERT);
+		assert(tmp->_type!=Const);
 		return ;
 	}
-	AigGate* gate=(AigGate*)(source & ~MASK_AIG & ~MASK_INVERT);	
+	BaseGate* gate=(BaseGate*)(source & ~MASK_AIG & ~MASK_INVERT);	
 	
 	if(gate->checkRef())
 		return ;

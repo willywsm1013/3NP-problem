@@ -1,3 +1,4 @@
+
 #ifndef CIRCUIT
 #define CIRCUIT
 
@@ -13,6 +14,7 @@ class Circuit{
 friend class CirMgr;
 public:
 	friend AigGate ;
+	typedef GateList vector<CirGate*>
 	Circuit(){init();}
 	~Circuit(){clear();}
 	//printing function
@@ -30,7 +32,7 @@ public:
 	void simpleOptimize(){return;}
 	//DFS Function
 	void DFSearch(const vector<CirGate*> &,vector<CirGate*> &);
-	void AigDFSearch(const vector<size_t> &,vector<AigGate*> &);
+	void AigDFSearch(const vector<size_t> &,vector<BaseGate*> &);
 	//Simulation Function
 	void simulate(int);
 	bool checkAig();
@@ -43,16 +45,17 @@ public:
 private:
 	int _cirNumber;
 	HashMap<nameKey,CirGate*> *_hash;
-	vector<CirGate*> _input;
-	vector<CirGate*> _output;
-	vector<CirGate*> _wire;
-	vector<CirGate*> _gate;
-	vector<CirGate*> _dfsList;
-	vector<AigGate*> _dfsAig;
-	vector<vector<CirGate*> > _fecGroup;
+	GateList _input;
+	GateList _output;
+	GateList _wire;
+	GateList _gate;
+	GateList _dfsList;
+	vector<BaseGate*> _dfsAig;
+	vector<GateList> _fecGroup;
 	
 	ConstGate *_true;
 	ConstGate *_false;
+	constGate *_aigConst;
 
 	void clear(){delete _hash;_hash=0;}
 	void init();
@@ -65,7 +68,7 @@ private:
 
 	//DFS function
 	void DFS(CirGate* const,vector<CirGate*> &);
-	void AigDFS(const size_t &,vector<AigGate*> &list);	
+	void AigDFS(const size_t &,vector<BaseGate*> &list);	
 	//simulation fection
 	void findFEC();
 	//SAT function
