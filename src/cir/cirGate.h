@@ -213,27 +213,11 @@ class AigGate{
 		void operate();
 	private:
 		size_t _ref;
+		size_t _fecNum;
 		bool _lead;
+
 	
 };
 
-/***************/
-/*  Key class  */
-/***************/
 
-//finction for read operation
-class nameKey
-{
-public:
-    nameKey(string s){_name=s;}
-    size_t operator() () const{
-		size_t sum=0;
-		for(size_t i=0;i<_name.size();++i)
-			sum+=_name[i];
-		return sum;
-	}
-    bool operator == (const nameKey& k) const { return _name==k._name; }
- private:
- 	string _name;
- };
 #endif

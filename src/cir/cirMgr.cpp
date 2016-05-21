@@ -49,12 +49,12 @@ bool CirMgr::readCircuit(string &fileOne,string &fileTwo){
 	if(!one->read(fileOne,1) || !two->read(fileTwo,2))
 		return false;
 
-	size_t n=one->_input.size();
-	_input.resize(n);
-	for(size_t i=0;i<n;++i){
+	size_t n1=one->_input.size(),n2=two->_input.size();
+	_input.resize(n1+n2);
+	for(size_t i=0;i<n1;++i)
 		_input[i].push_back(one->_input[i]);
-		_input[i].push_back(two->_input[i]);
-	}
+	for(size_t i=0;i<n2;++i)
+		_input[i+n1].push_back(two->_input[i]);
 	
 	return true;
 
@@ -197,9 +197,11 @@ void CirMgr::genProveModel(bool replace){
 	_solver->initialize();
 	_true=_solver->newVar();
 	_false=_solver->newVar();
-	inputSetVar(_solver);
-	one->genProveModel(_solver,_true,_false);
-	two->genProveModel(_solver,_true,_false);
+	one->_true->_var=two->_true->_var=_true;
+	one->_false->_var=two->_false->_var=_false;
+	//inputSetVar(_solver);
+	one->genProveModel(_solver,one->_dfsAig);
+	two->genProveModel(_solver,two->_dfsAig);
 }
 
 void CirMgr::inputSetVar(SatSolver *s){
@@ -243,12 +245,13 @@ void CirMgr::init(){
 	one=0;
 	two=0;
 	_solver=0;
-	//srand(0);
-	srand(time(0));
+	srand(0);
+	//srand(time(0));
 }
 
 void CirMgr::clean(){
 	delete one;
 	delete two;
+	delete _solver;
 	init();
 }

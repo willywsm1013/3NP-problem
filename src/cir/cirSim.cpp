@@ -29,12 +29,13 @@ void CirMgr::fileSim(ifstream & file){
 void CirMgr::aigRandomSimCheck(){
 	cout<<"start random simulation check..."<<endl;
 	size_t count=0;
+	cout<<"input size:"<<_input.size()<<endl;
 	size_t max_pattern=_input.size()>30?_input.size()*100:pow(2,_input.size());
 	cout<<"randomSim check:";
 	while(count*32 < max_pattern){
 		++count;
 		randomInput();
-		simulate();
+		simulate(0);
 		if(!checkAig()){
 			cout<<"nonequivalence\nerror happended"<<endl;
 			assert(0);	
@@ -49,7 +50,7 @@ void CirMgr::aigFileSimCheck(ifstream & file){
 	cout<<"fileSim check:";
 	while(fileInput(file)){
 		++count;
-		simulate();
+		simulate(0);
 		if(!checkAig()){
 			cout<<"nonequivalence\nerror happended"<<endl;
 			assert(0);	
@@ -192,11 +193,55 @@ bool Circuit::checkAig(){
 /************************/
 /*   private function   */
 /************************/
-void Circuit::findFEC(){
+bool Circuit::findFEC(){
+	vector<AigList> newGroup;
+	int pairN=0;
+	//cout<<"fec group size:"<<_fecGroup.size()<<endl;
+	for(size_t n=_fecGroup.size(),i=n-1;i>=0 && i<n;--i){
+		//cout<<"list["<<i<< "] size:"<<_fecGroup[i].size()<<endl;
+		if(_fecGroup[i].size()!=2)
+			grouping(newGroup,_fecGroup[i]);
+		else{
+			pairN++;
+			assert(_fecGroup[i].size()==2);
+			int sim=(_fecGroup[i][0]->_curSim ^ _fecGroup[i][1]->_curSim);
+			if(sim==0 || sim ==~0)
+				newGroup.push_back(_fecGroup[i]);
+		}
+		_fecGroup.pop_back();
+		cout<<"FEC group size:"<<_fecGroup.size()+newGroup.size()<<char(13);
+	}
+	cout<<"pair num:"<<pairN<<endl;
+	assert(_fecGroup.size()==0);
+	_fecGroup.swap(newGroup);
 
-
-
-
+	if(_fecGroup.size()==0)return false;
+	else return true;
 }
-
-
+void Circuit::grouping(vector<AigList>& newGroup,const AigList& list){
+	HashMap<simKey,AigGate*> hash(getHashSize(list.size()));
+	vector<AigList> tmp;
+	for(size_t i=0,n=list.size();i<n;++i){
+		AigGate *gate=list[i],*refer=0;
+		simKey k(gate->_curSim);
+		if(hash.check(k,refer)){// find k in hash, update refer, push gate into the same place with refer in tmp 
+			assert(refer!=0);
+			tmp[refer->_fecNum].push_back(gate);
+		}
+		else{// k is not in hash, insert (k,gate) into hash and record its position in tmp
+			gate->_fecNum=tmp.size();
+			tmp.push_back(AigList(1,gate));
+			hash.insert(k,gate);
+		}
+	}
+	for(size_t i=0;i<tmp.size();++i)
+		if(tmp[i].size()>1)
+			newGroup.push_back(tmp[i]);
+}
+void Circuit::randomInput(){
+	for(size_t i=0,n=_input.size();i<n;++i){
+		unsigned int value=rand();
+		if(!_input[i]->setCurSim(value))
+			assert(0);
+	}
+}

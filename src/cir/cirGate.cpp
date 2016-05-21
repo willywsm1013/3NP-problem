@@ -220,7 +220,6 @@ void AigGate::operate(){
 			//assert(s == 0 || s ==(unsigned int)~0);
 		}
 		fanin0 = tmp->_curSim;
-		assert(fanin0 != 0 );
 	}
 	else
 		fanin0 = ((AigGate*)(_in0 & ~MASK_INVERT & ~MASK_AIG))->_curSim;
@@ -234,7 +233,6 @@ void AigGate::operate(){
 			cout<<"Aig operate const"<<endl;
 		}
 		fanin1 = tmp->_curSim;
-		assert(fanin1!=0);
 	}
 	else
 		fanin1 = ((AigGate*)(_in1 & ~MASK_INVERT & ~MASK_AIG))->_curSim;

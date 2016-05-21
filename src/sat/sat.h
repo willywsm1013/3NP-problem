@@ -32,11 +32,24 @@ class SatSolver
          _solver = new Solver();
          _assump.clear(); _curVar = 0;
       }
-
+	
       // Constructing proof model
       // Return the Var ID of the new Var
       inline Var newVar() { _solver->newVar(); return _curVar++; }
-	 //////  Buf Gate  //////
+		void addAigCNF(Var vf, Var va, bool fa, Var vb, bool fb) {
+         vec<Lit> lits;
+         Lit lf = Lit(vf);
+         Lit la = fa? ~Lit(va): Lit(va);
+         Lit lb = fb? ~Lit(vb): Lit(vb);
+         lits.push(la); lits.push(~lf);
+         _solver->addClause(lits); lits.clear();
+         lits.push(lb); lits.push(~lf);
+         _solver->addClause(lits); lits.clear();
+         lits.push(~la); lits.push(~lb); lits.push(lf);
+         _solver->addClause(lits); lits.clear();
+      		}	 
+
+	//////  Buf Gate  //////
 	 void addEquilCNF(Var vf,Var va,bool fa){
 		 vec<Lit> lits;
          

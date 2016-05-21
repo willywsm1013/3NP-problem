@@ -2,7 +2,7 @@
 #define CIRMGR
 
 #include "circuit.h"
-class simKey;
+#include "Key.h"
 class CirMgr{
 public:
 	CirMgr(){init();}
@@ -27,7 +27,7 @@ public:
 	//Prove Function
 	void satProve();
 	void genProveModel(bool = false);
-
+	void Fraig();
 	//Check Function
 	void CheckEquil()const;
 
@@ -65,23 +65,6 @@ private:
 	void sat(Circuit*);
 	void getInputPattern(SatSolver*&);
 	
-
-};
-
-
-class simKey{
-public:
-	simKey(unsigned int s){
-		if((s&MASK_INVERT)==1)
-			_sim=s;
-		else
-			_sim=~s;
-	}
-	size_t operator()()const{return _sim;}
-	bool operator== (const simKey& k)const {return _sim==k._sim;}
-
-private:
-	unsigned int _sim;
 
 };
 #endif

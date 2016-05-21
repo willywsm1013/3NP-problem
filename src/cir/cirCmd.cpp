@@ -28,7 +28,7 @@ initCirCmd()
 		cmdMgr->regCmd("Simulate",1,new SimCmd)&&
 		cmdMgr->regCmd("Checkequil",1,new CheckequilCmd) &&
 		cmdMgr->regCmd("Build",1,new BuildCmd)&&
-		cmdMgr->regCmd("PROve",3,new ProveCmd) &&
+		cmdMgr->regCmd("Fraig",1,new FraigCmd) &&
 		cmdMgr->regCmd("Toaig",1,new ToaigCmd)
 /*
 			cmdMgr->regCmd("CIRRead", 4, new CirReadCmd) &&
@@ -388,10 +388,10 @@ BuildCmd::help() const
 }
 
 //----------------------------------------------------------------------
-//    Prove 
+//    Fraig 
 //----------------------------------------------------------------------
 CmdExecStatus
-ProveCmd::exec(const string& option)
+FraigCmd::exec(const string& option)
 {
    if (!cirMgr) {
       cerr << "Error: circuit is not yet constructed!!" << endl;
@@ -404,21 +404,21 @@ ProveCmd::exec(const string& option)
    if (!options.empty())
    	  return CmdExec::errorOption(CMD_OPT_EXTRA,options[0]);
 
-   cirMgr->satProve(); 
+   cirMgr->Fraig(); 
    return CMD_EXEC_DONE;
 }
 
 void
-ProveCmd::usage(ostream& os) const
+FraigCmd::usage(ostream& os) const
 {
-   os << "Usage: PROve" << endl;
+   os << "Usage: Fraig" << endl;
 }
 
 void
-ProveCmd::help() const
+FraigCmd::help() const
 {
-   cout << setw(15) << left << "PROve: "
-        << "use SAT to prove FEC groups are equil" << endl;
+   cout << setw(15) << left << ": Fraig"
+        << "do Fraig for circuit." << endl;
 }
 
 
