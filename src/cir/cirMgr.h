@@ -1,7 +1,6 @@
 #ifndef CIRMGR
 #define CIRMGR
 
-#include "cirKey.h"
 #include "circuit.h"
 class simKey;
 class CirMgr{

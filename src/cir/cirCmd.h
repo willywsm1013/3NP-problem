@@ -14,8 +14,6 @@ CmdClass(ReadCmd);
 CmdClass(PrintCmd);
 CmdClass(SimCmd);
 CmdClass(CheckequilCmd);
-CmdClass(BuildCmd);
-CmdClass(ProveCmd);
 CmdClass(ToaigCmd);
 /*
 CmdClass(CirReadCmd);

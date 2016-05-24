@@ -7,12 +7,12 @@
 #include <queue>
 #include "sat.h"
 #include "util.h"
-#include "cirKey.h"
+#include "Key.h"
 class CirMgr;
 class AigGate;
 using namespace std;
-#define MASK_INVERT (size_t)0x1
-#define MASK_AIG (size_t)0x2
+//static const size_t MASK_INVERT=0x1;
+//static const size_t MASK_AIG=0x2;
 /************************************/
 /*  Global functions and variables  */
 /************************************/
@@ -201,8 +201,9 @@ public:
 /*   Aig Gate   */
 /****************/
 class BaseGate{
+	friend class Circuit;
 	public:	
-		BaseGate();
+		BaseGate(GateType type):_type(type){};
 		Var _var;
 		static size_t _gloref;
 
@@ -211,13 +212,14 @@ class BaseGate{
 		virtual void operate()=0;
 
 	protected:
+		GateType _type;
 		size_t _ref;
 };
 
 class AigGate: public BaseGate{
-	//friend class Circuit;	
+	friend class Circuit;	
 	public:
-		AigGate(size_t one,size_t two):BaseGate(),_in0(one),_in1(two){_ref=0;_lead=false;}
+		AigGate(size_t one,size_t two):BaseGate(Aig),_in0(one),_in1(two){_ref=0;_lead=false;}
 		size_t _in0,_in1;
 		int _curSim;
 		CirGate* _rep;
@@ -230,8 +232,10 @@ class AigGate: public BaseGate{
 };
 
 class constGate:public BaseGate{
+	friend class Circuit;	
 	public:
-		constGate(bool invert):BaseGate(),_curSim(0){}
+		constGate():BaseGate(Const),_curSim(0){}// default false gate
+		constGate(bool invert):BaseGate(Const),_curSim(invert?~0:0){} 
 		const int _curSim;
 		
 		void operate(){return;}

@@ -1,8 +1,8 @@
 #include "circuit.h"
 void Circuit::init(){
-	_aigConst=new constGate();
+	_aigConst=new constGate;
 	_true=new ConstGate(0,"1'b1",true,_cirNumber,(size_t)_aigConst);
-	_false=new ConstGate(1,"1'b0",false,_cirNumber,(size_t)_aigGConst);
+	_false=new ConstGate(1,"1'b0",false,_cirNumber,(size_t)_aigConst);
 	_hash=0;
 }
 /********************/
@@ -251,10 +251,10 @@ void Circuit::AigDFS(const size_t &source,vector<BaseGate*> &list){
 	if(gate->checkRef())
 		return ;
 	gate->setRef();
-	
-	AigDFS(gate->_in0,list);
-	AigDFS(gate->_in1,list);
-		
+	if(gate->_type==Aig){	
+		AigDFS(((AigGate*)gate)->_in0,list);
+		AigDFS(((AigGate*)gate)->_in1,list);
+	}
 	
 	list.push_back(gate);
 	return ;

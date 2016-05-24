@@ -9,7 +9,7 @@
 #include "myHashMap.h"
 #include "cirGate.h"
 #include "sat.h"
-#include "cirKey.h"
+#include "Key.h"
 using namespace std;
 class Circuit{
 friend class CirMgr;

@@ -27,8 +27,6 @@ initCirCmd()
 		cmdMgr->regCmd("PRInt",3,new PrintCmd)&&
 		cmdMgr->regCmd("Simulate",1,new SimCmd)&&
 		cmdMgr->regCmd("Checkequil",1,new CheckequilCmd) &&
-		cmdMgr->regCmd("Build",1,new BuildCmd)&&
-		cmdMgr->regCmd("PROve",3,new ProveCmd) &&
 		cmdMgr->regCmd("Toaig",1,new ToaigCmd)
 /*
 			cmdMgr->regCmd("CIRRead", 4, new CirReadCmd) &&
@@ -353,74 +351,6 @@ CheckequilCmd::help() const
 		<< "	-Output:check the equivalence of output group"<<endl
 		<< "	-Aig:check the correctness with aig circuit and original circuit"<<endl; 
 }
-//----------------------------------------------------------------------
-//    Build 
-//----------------------------------------------------------------------
-CmdExecStatus
-BuildCmd::exec(const string& option)
-{
-   if (!cirMgr) {
-      cerr << "Error: circuit is not yet constructed!!" << endl;
-      return CMD_EXEC_ERROR;
-   }
-   // check option
-   vector<string> options;
-   if (!CmdExec::lexOptions(option, options))
-      return CMD_EXEC_ERROR;
-   if (!options.empty())
-   	  return CmdExec::errorOption(CMD_OPT_EXTRA,options[0]);
-
-   cirMgr->genProveModel(); 
-   return CMD_EXEC_DONE;
-}
-
-void
-BuildCmd::usage(ostream& os) const
-{
-   os << "Usage: Build" << endl;
-}
-
-void
-BuildCmd::help() const
-{
-   cout << setw(15) << left << "Build: "
-        << "generate SAT prove model" << endl;
-}
-
-//----------------------------------------------------------------------
-//    Prove 
-//----------------------------------------------------------------------
-CmdExecStatus
-ProveCmd::exec(const string& option)
-{
-   if (!cirMgr) {
-      cerr << "Error: circuit is not yet constructed!!" << endl;
-      return CMD_EXEC_ERROR;
-   }
-   // check option
-   vector<string> options;
-   if (!CmdExec::lexOptions(option, options))
-      return CMD_EXEC_ERROR;
-   if (!options.empty())
-   	  return CmdExec::errorOption(CMD_OPT_EXTRA,options[0]);
-
-   cirMgr->satProve(); 
-   return CMD_EXEC_DONE;
-}
-
-void
-ProveCmd::usage(ostream& os) const
-{
-   os << "Usage: PROve" << endl;
-}
-
-void
-ProveCmd::help() const
-{
-   cout << setw(15) << left << "PROve: "
-        << "use SAT to prove FEC groups are equil" << endl;
-}
-
 
 //----------------------------------------------------------------------
 //    ToAig 

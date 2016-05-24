@@ -4,7 +4,7 @@
 /*  global or static variable  */
 /*******************************/
 size_t CirGate::_gloRef=1;
-size_t AigGate::_gloref=1;
+size_t BaseGate::_gloref=1;
 /*********************/
 /*  helper function  */
 /*********************/
