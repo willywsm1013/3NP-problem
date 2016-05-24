@@ -1,8 +1,9 @@
-#ifndef KEY
-#define KEY
+#ifndef CIRKEY
+#define CIRKEY
+#include <string>
 //finction for read operation
-class nameKey
-{
+
+class nameKey{
 public:
     nameKey(string s){_name=s;}
     size_t operator() () const{
@@ -20,7 +21,7 @@ public:
 class simKey{
 public:
 	simKey(unsigned int s){
-		if((s&MASK_INVERT)==1)
+		if((s & MASK_INVERT)==1)
 			_sim=s;
 		else
 			_sim=~s;

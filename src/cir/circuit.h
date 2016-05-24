@@ -9,12 +9,14 @@
 #include "myHashMap.h"
 #include "cirGate.h"
 #include "sat.h"
+#include "cirKey.h"
 using namespace std;
 class Circuit{
 friend class CirMgr;
+friend AigGate ;
 public:
-	friend AigGate ;
-	typedef GateList vector<CirGate*>
+	typedef vector<CirGate*> GateList;
+	typedef vector<BaseGate*> AigList;
 	Circuit(){init();}
 	~Circuit(){clear();}
 	//printing function
@@ -31,8 +33,8 @@ public:
 	//simple optimization
 	void simpleOptimize(){return;}
 	//DFS Function
-	void DFSearch(const vector<CirGate*> &,vector<CirGate*> &);
-	void AigDFSearch(const vector<size_t> &,vector<BaseGate*> &);
+	void DFSearch(const GateList &,GateList &);
+	void AigDFSearch(const vector<size_t> &,AigList &);
 	//Simulation Function
 	void simulate(int);
 	bool checkAig();
@@ -50,7 +52,7 @@ private:
 	GateList _wire;
 	GateList _gate;
 	GateList _dfsList;
-	vector<BaseGate*> _dfsAig;
+	AigList _dfsAig;
 	vector<GateList> _fecGroup;
 	
 	ConstGate *_true;
@@ -67,8 +69,8 @@ private:
 	bool readGate(const vector<string> &);
 
 	//DFS function
-	void DFS(CirGate* const,vector<CirGate*> &);
-	void AigDFS(const size_t &,vector<BaseGate*> &list);	
+	void DFS(CirGate* const,GateList &);
+	void AigDFS(const size_t &,AigList &list);	
 	//simulation fection
 	void findFEC();
 	//SAT function

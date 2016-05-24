@@ -1,8 +1,8 @@
 #ifndef CIRMGR
 #define CIRMGR
 
-#include "circuit.h"
 #include "cirKey.h"
+#include "circuit.h"
 class simKey;
 class CirMgr{
 public:

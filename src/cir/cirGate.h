@@ -130,7 +130,8 @@ private:
 
 class ConstGate:public CirGate{
 public:
-	ConstGate(size_t id,string name,bool phase,int cirNum,size_t aig):CirGate(id,name,Const,phase,cirNum),_aig(aig){
+	ConstGate(size_t id,string name,bool phase,int cirNum,size_t aig):CirGate(id,name,Const,phase,cirNum){
+		_aig=aig;
 		if(phase){_curSim=~0;_aig=(aig | MASK_INVERT);}
 		else {_curSim=0;_aig=aig;}
 	}
@@ -201,9 +202,9 @@ public:
 /****************/
 class BaseGate{
 	public:	
-		base():{}
+		BaseGate();
 		Var _var;
-		static size_t gloref;
+		static size_t _gloref;
 
 		void setRef(){_ref=_gloref;}
 		bool checkRef(){return _ref==_gloref;}
@@ -211,12 +212,12 @@ class BaseGate{
 
 	protected:
 		size_t _ref;
-}
+};
 
 class AigGate: public BaseGate{
 	//friend class Circuit;	
 	public:
-		AigGate(size_t one,size_t two):base(),_in0(one),_in1(two){_ref=0;_lead=false;}
+		AigGate(size_t one,size_t two):BaseGate(),_in0(one),_in1(two){_ref=0;_lead=false;}
 		size_t _in0,_in1;
 		int _curSim;
 		CirGate* _rep;
@@ -230,10 +231,10 @@ class AigGate: public BaseGate{
 
 class constGate:public BaseGate{
 	public:
-		constGate(bool invert):base(),_cursim(0){}
+		constGate(bool invert):BaseGate(),_curSim(0){}
 		const int _curSim;
 		
 		void operate(){return;}
 	private:
-}
+};
 #endif
